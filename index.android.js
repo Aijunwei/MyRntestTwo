@@ -10,13 +10,21 @@ import {
   Text,
   ListView,
   Image,
-  View
+  View,
+  Navigator
 } from 'react-native';
-import ImageExamples from './ImageExample';
-import UIExplorerPage from './UIExplorerPage';
+//import ImageExamples from './ImageExample';
+import MapViewExample from './MapViewExample';
+import UIListViewExample from './UIListViewExample';
+import ModalExample from './ModalExample';
+import Main from './navigator'
 class MyRntestTwo extends Component {
   render() {
-    return this.renderImageExmaplesList();
+    return this.renderNav();
+    //return this.renderModal();
+   // return this.renderMapViews();
+  //  return this.renderListViewExample();
+ //   return this.renderImageExmaplesList();
 /*  return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
@@ -34,7 +42,36 @@ class MyRntestTwo extends Component {
       </View>
     );*/
   }
- renderImageExmaplesList(){
+  renderNav(){
+    return <Navigator
+        initialRoute={{name:'index', component: Main}}
+        configureScene={(route)=> Navigator.SceneConfigs.HorizontalSwipeJumpFromRight}
+        renderScene={(route, navigator) =>{
+          let Compo = route.component;
+          return <Compo {...route.params} navigator={navigator} />
+        }}
+    />;
+  }
+  renderModal(){
+    return ModalExample.examples[0].render();
+  }
+  renderMapViews(){
+    var ds = new ListView.DataSource({rowHasChanged: (r1,r2)=> r1!== r2});
+    var datasource = ds.cloneWithRows(MapViewExample.examples);
+    return <ListView dataSource={datasource} renderRow={this.renderMapRow} style={styles.listView} />
+  }
+  renderMapRow(map){
+    return (
+      <View>
+        <Text>{map.title}</Text>
+        {map.render()}
+      </View>
+    );
+  }
+  renderListViewExample(){
+    return <UIListViewExample />;
+  }
+/* renderImageExmaplesList(){
     var imageExamples=ImageExamples.examples.filter((element)=> element.platform!='ios');
     //imageExamples=[{"title":"hello"},{"title":"world"}];
    // return imageExamples[0].title;
@@ -46,7 +83,7 @@ class MyRntestTwo extends Component {
 
     return <ListView dataSource={datadource} renderRow={this.renderImageExample} style={styles.listView} />
 
-  }
+  }*/
   renderImageExample(image){
     return (
       <View style={{flex: 1}}>
