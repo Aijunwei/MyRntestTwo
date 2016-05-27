@@ -19,6 +19,11 @@ import ScrollViewExample from './ScrollViewExample';
 import SliderList from './SliderExample'; 
 import TextExample from './TextExample';
 import ToolbarAndroidExample from './ToolbarAndroidExample';
+import Background from './background';
+import ViewPagerExample from './ViewPagerExample';
+import WebViewExample from './WebViewExample';
+import TextInputExample from './TextInputExample';
+import Alipay from './src/components/android/Entry'
 var router=[
 	{
 		name: 'ImageExamples',
@@ -55,6 +60,23 @@ var router=[
 	},{
 		name: 'ToolbarAndroid',
 		component: ToolbarAndroidExample
+	},{
+		name:'background',
+		component:Background
+	},
+	{
+		name: 'ViewPagerAndroid',
+		component:ViewPagerExample
+	},{
+		name:'WebView',
+		component:WebViewExample
+	},{
+		name:'TextInput',
+		component: TextInputExample
+	},
+	{
+		name: 'Alipay',
+		component: Alipay
 	}
 ];
 var ds= new ListView.DataSource({rowHasChanged:(r1,r2) => r1!==r2 });

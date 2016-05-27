@@ -37,12 +37,58 @@ class TooolbarAndroidExample extends Component{
 				<UIExplorerBlock title="Toolar with title/subtitle and actions">
 					<ToolbarAndroid 
 						actions={toolbarActions}
-						navIcon={require('./ic_menu_black_24dp.png')}
+						navIcon={require('image!ic_menu_black_24dp')}
 						onActionSelected={this._onActionSelected}
 						onIconClicked={()=>{this.setState({actionText: 'Icon clicked'})}}
 						style={styles.toolbar}
 					/>
 					<Text>{this.state.actionText}</Text>
+				</UIExplorerBlock>
+				<UIExplorerBlock title="Toolbar with logo & custom title view">
+					<ToolbarAndroid
+					logo={require('./launcher_icon.png')}
+					style={styles.toolbar}>
+						<View style={{flexDirection: 'row',height: 56, alignItems: 'center'}}>
+							<Switch value={this.state.toolbarSwitch}
+								onValueChange={(value)=> this.setState({toolbarSwitch: value})}
+							/>
+							<Text>switch</Text>
+						</View>
+					</ToolbarAndroid>
+				</UIExplorerBlock>
+				<UIExplorerBlock title="Toolbar with navIcon & logo, no title">
+					<ToolbarAndroid 
+						actions={toolbarActions}
+						logo={require('./launcher_icon.png')}
+						navIcon={require('./ic_menu_black_24dp.png')}
+						style={styles.toolbar}
+					/>
+				</UIExplorerBlock>
+				<UIExplorerBlock title="Toolbar with custom title colors">
+					<ToolbarAndroid
+						navIcon={require('./ic_menu_black_24dp.png')}
+						onIconClicked={() => this.setState({colorProps: {}})}
+						title="Wow, such toolbar"
+						style={styles.toolbar}
+						subtitle="much native"
+						{...this.state.colorProps}
+					/>
+				</UIExplorerBlock>
+				<UIExplorerBlock>
+					<ToolbarAndroid
+						actions={[{title:'Bunny',icon: require('./bunny.png'), show: 'always'}]}
+						logo={require('./hawk.png')}
+						navIcon={require('./bunny.png')}
+						title="Buny and Hawk"
+						style={styles.toolbar}
+					/>
+				</UIExplorerBlock>
+				<UIExplorerBlock title="Toolbar with custom overflowIcon">
+					<ToolbarAndroid
+						actions={toolbarActions}
+						overflowIcon={require('./bunny.png')}
+						style={styles.toolbar}
+					/>
 				</UIExplorerBlock>
 			</UIExplorerPage>
 		);

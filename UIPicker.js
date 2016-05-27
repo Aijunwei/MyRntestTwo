@@ -4,8 +4,10 @@ import React, {Component} from 'react';
 import {
 	Picker,
 	Text,
+	View,
 	StyleSheet,
-	TouchableHighlight
+	TouchableHighlight,
+	TouchableNativeFeedback
 } from 'react-native';
 import UIExplorerPage from './UIExplorerPage';
 import UIExplorerBlock from './UIExplorerBlock';
@@ -65,6 +67,14 @@ class PickerExample extends Component{
 						<Item label="blue" color="blue" value="blue"/>
 					</Picker>
 				</UIExplorerBlock>
+				<TouchableNativeFeedback
+					onPress={()=>{alert('press')}}
+					background={TouchableNativeFeedback.SelectableBackground()}
+				>
+					<View style={{width: 150, height: 100, backgroundColor: 'red'}}>
+						<Text style={{margin: 30}}>Button</Text>
+					</View>
+				</TouchableNativeFeedback>
 				<TouchableHighlight onPress={()=>{
 					const {navigator}=this.props;
 					if(navigator){

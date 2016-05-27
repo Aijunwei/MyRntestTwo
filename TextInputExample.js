@@ -8,7 +8,7 @@ import {
 	StyleSheet
 } from 'react-native';
 
-class TextEventsExample extends Component{
+export default class TextEventsExample extends Component{
 	constructor(props){
 		super(props);
 		this.state={
@@ -16,14 +16,15 @@ class TextEventsExample extends Component{
 			prevText: '<No Event>',
 			prev2Text: '<No Event>'
 		};
+		this.updateText=this.updateText;
 	}
 	updateText(text){
 		this.setState((state)=>{
 			return {
 				curText: text,
-				prevText: state.curText
+				prevText: state.curText,
 				prev2Text: state.prevText
-			}
+			};
 		});
 	}
 	render(){
@@ -32,6 +33,8 @@ class TextEventsExample extends Component{
 				<TextInput
 					autoCapitalize="none"
 					placeholder="Enter text to see events"
+					underlineColorAndroid="transparent"
+					maxLength={5}
 					autoCorrect={false}
 					onFocus={()=>{this.updateText('onFpcus')}}
 					onBlur={()=>{this.updateText('onBlur')}}
@@ -40,7 +43,7 @@ class TextEventsExample extends Component{
 					onSubmitEditing={(event)=> this.updateText('onSubmitEditing text:'+event.nativeEvent.text)}
 					style={styles.singleLine}
 				/>
-				<Text style={styes.eventLabel}>
+				<Text style={styles.eventLabel}>
 					{this.state.curText}{'\n'}
 					(prev: {this.state.prevText}){'\n'}
 					(prev2: {this.state.prev2Text}){'\n'}
@@ -63,7 +66,7 @@ const styles=StyleSheet.create({
   },
   singleLine: {
     fontSize: 16,
-    padding: 4,
+    padding: 4
   },
   singleLineWithHeightTextInput: {
     height: 30,

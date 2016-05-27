@@ -3,6 +3,9 @@
  * https://github.com/facebook/react-native
  */
 
+ //require('./jsCode/Main');
+
+
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -21,26 +24,6 @@ import Main from './navigator'
 class MyRntestTwo extends Component {
   render() {
     return this.renderNav();
-    //return this.renderModal();
-   // return this.renderMapViews();
-  //  return this.renderListViewExample();
- //   return this.renderImageExmaplesList();
-/*  return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-        <Text>
-          {this.renderImageExmaplesList()}
-        </Text>
-      </View>
-    );*/
   }
   renderNav(){
     return <Navigator
@@ -71,19 +54,6 @@ class MyRntestTwo extends Component {
   renderListViewExample(){
     return <UIListViewExample />;
   }
-/* renderImageExmaplesList(){
-    var imageExamples=ImageExamples.examples.filter((element)=> element.platform!='ios');
-    //imageExamples=[{"title":"hello"},{"title":"world"}];
-   // return imageExamples[0].title;
-    var ds = new ListView.DataSource({
-        rowHasChanged:(row1,row2) => row1!==row2
-      });
-
-    var datadource = ds.cloneWithRows(imageExamples);
-
-    return <ListView dataSource={datadource} renderRow={this.renderImageExample} style={styles.listView} />
-
-  }*/
   renderImageExample(image){
     return (
       <View style={{flex: 1}}>
