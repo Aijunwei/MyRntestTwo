@@ -20,6 +20,8 @@ import TopBarStyles from '../../../styles/topBar';
 import QuickEntryStyles from '../../../styles/quickEntry';
 import AppListStyles from '../../../styles/appList';
 import BannerStyles from '../../../styles/banner';
+import AppList from './AppList';
+import  Banner from './../common/Banner';
 // 字体
 const Icon = require('react-native-vector-icons/FontAwesome');
 const MaterialIcons = require('react-native-vector-icons/MaterialIcons');
@@ -35,7 +37,7 @@ const appListData = [
         title: '信用卡还款',
         icon: {
           name: 'credit-card-alt',
-          size: 20,
+          size: 35,
           color: '#FFB44F',
         }
       },
@@ -43,7 +45,7 @@ const appListData = [
         title: '红包',
         icon: {
           name: 'envelope',
-          size: 20,
+          size: 35,
           color: '#FC6165',
         },
         options: {
@@ -120,7 +122,7 @@ const appListData = [
         title: '亲密付',
         icon: {
           name: 'heart',
-          size: 20,
+          size: 35,
           color: '#FC6165',
         }
       },
@@ -195,14 +197,38 @@ const appListData = [
 class AlipayView extends Component{
 	constructor(props) {
 	  super(props);
+    this.handleAppClick=this.handleAppClick.bind(this);
+    this.onMorePress= this.onMorePress.bind(this);
 	}
+  handleAppClick(appInfo){
+    alert('click');
+  }
+  onMorePress(){
+    alert('press more');
+  }
 	render(){
 		return (
 			<View style={styles.container}>
 				<QuickEntry styles={styles} />
 			  <ScrollView contentContainerStyle={styles.scrollContainerApp}
                     automaticallyAdjustContentInsets={true}>
-
+            <View key="content" style={styles.content}>
+              <View key="app" style={styles.app}>
+                  <AppList styles={styles}
+                           data={appListData.slice(0,3)}
+                           topBorder={false}
+                           onMorePress={this.onMorepress}
+                           onAppPress={this.handleAppClick}/>
+                  <Banner styles={styles} />
+                 <View key="app-2" style={styles.app}>
+                    <AppList styles={styles}
+                            data={appListData.slice(3)}
+                            topBorder={true}
+                             onMorePress={this.onMorePress}
+                             onAppPress={this.handleAppClick} />
+               </View>
+              </View>
+            </View>
         </ScrollView>
 			</View>
 		);

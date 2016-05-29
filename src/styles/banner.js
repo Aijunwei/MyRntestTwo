@@ -13,7 +13,7 @@ const BannerStyles = {
   },
   bannerImage: {
     flex: 1,
-    height: 70,
+    height: 100,
   },
 };
 

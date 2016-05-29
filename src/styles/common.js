@@ -14,7 +14,7 @@ const CommonStyles = {
   scrollContainerApp: {
     backgroundColor: '#F5F5F9',
     paddingBottom: 15,
-    marginTop: -20,
+   
   },
   // IOS 下每个 Tab 的根页面会占用系统状态栏的高度（20px）
   // Andriod 未测

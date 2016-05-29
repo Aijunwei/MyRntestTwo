@@ -5,12 +5,12 @@ const AppListStyles = {
 
   },
   appRow: {
-    height: 75,
+    height: 120,
     flexDirection: 'row',
     backgroundColor: '#3F454F',
   },
   appRowTopBorder: {
-    height: 75,
+    height: 120,
     flexDirection: 'row',
     backgroundColor: '#3F454F',
     borderTopWidth: 1,
@@ -26,23 +26,23 @@ const AppListStyles = {
     paddingTop: 15,
   },
   appItemImageIcon: {
-    width: 24,
-    height: 24,
+    width: 44,
+    height: 44,
   },
   appItemIcon: {
-    width: 24,
-    height: 24,
+    width: 44,
+    height: 44,
     paddingTop: 2,
   },
   appItemText: {
-    marginTop: 8,
-    fontSize: 12
+    marginTop: 15,
+    fontSize: 18
   },
   appItemTextMore: {
-    marginTop: 8,
-    fontSize: 18,
+    marginTop:-18,
+    fontSize: 35,
     fontWeight: 'bold',
-    color: '#ccc',
+    color: '#ccc'
   },
 };
 
