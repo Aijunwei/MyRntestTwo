@@ -9,6 +9,7 @@ import {
 
 import TabNavigator from 'react-native-tab-navigator';
 import AlipayView from './alipay/Index';
+import KoubeiView from './koubei/Index';
 
 const MaterialIcons = require('react-native-vector-icons/MaterialIcons');
 //import Icon from 'react-native-vector-icons/Ionicons';
@@ -51,10 +52,8 @@ export default class Interface extends Component{
    		 			renderIcon={() => <Image source={{uri: koubeiBase64Icon, scale: 2}} style={styles.iconStyle} />}
    		 			onPress={()=>this.onPress('KoubeiView')}
    		 			titleStyle={styles.titleStyle}
-
-   		 		
    		 		>
-   		 			<View><Text>口碑外卖</Text></View>
+   		 			<KoubeiView />
    		 		</TabNavigator.Item>
    		 		<TabNavigator.Item
    		 			key="friends"
