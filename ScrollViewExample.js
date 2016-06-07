@@ -7,6 +7,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	View,
+	Animated,
 	Image
 } from 'react-native';
 
@@ -14,15 +15,34 @@ class ScrollViewExample extends Component{
 	constructor(props){
 		super(props);
 	}
+	componentWillMount(){
+		this._animatedValue=new Animated.Value(0);
+	}
 	render(){
 		var _scrollView: ScrollView;
+		var interpolateColor = this._animatedValue.interpolate({
+			inputRange:[0,5000],
+			outputRange:['rgba(255,255,255,1)','rgba(51,156,177,1)'],
+			extropolate:'clamp'
+		});
+		var scrollEvent=Animated.event([
+			{
+				nativeEvent:{
+					contentOffset:{
+						y: this._animatedValue
+					}
+				}
+			}
+		]);
 		return (
-			<View>
+			<View style={{flex: 1}}>
 				<ScrollView
 					ref={(scrollView)=>{_scrollView = scrollView}}
-					onScroll={()=>{console.log('onScroll');}}
+					onScroll={scrollEvent}
 					style={styles.scrollView}>
-					{THUMBS.map(createThumbRow)}
+					<Animated.View style={{height:5000,backgroundColor:interpolateColor}}>
+							<Text>scroll</Text>
+					</Animated.View>
 				</ScrollView>
 				<TouchableOpacity
 				style={styles.button}
@@ -50,8 +70,7 @@ THUMBS = THUMBS.concat(THUMBS); // double length of THUMBS
 var createThumbRow = (uri, i) => <Thumb key={i} uri={uri} />;
 var styles=StyleSheet.create({
 scrollView: {
-    backgroundColor: '#6A85B1',
-  height:600
+  flex: 1
   },
   horizontalScrollView: {
     height: 120,

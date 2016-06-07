@@ -29,13 +29,13 @@ const ListStyles = {
     alignItems: 'center',
   },
   listItemImage: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
     borderRadius: 3
   },
   listItemIcon: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
     paddingLeft: 2
   },
   listItemContent: {

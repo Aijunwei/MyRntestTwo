@@ -27,8 +27,7 @@ class MyRntestTwo extends Component {
   }
   renderNav(){
     return <Navigator
-        initialRoute={{name:'index', component: Main}}
-        configureScene={(route)=> Navigator.SceneConfigs.HorizontalSwipeJumpFromRight}
+        initialRoute={{name:'index', component: Main}}       
         renderScene={(route, navigator) =>{
           let Compo = route.component;
           return <Compo {...route.params} navigator={navigator} />

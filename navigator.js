@@ -4,7 +4,8 @@ import {
 	Text,
 	StyleSheet,
 	ListView,
-	TouchableHighlight
+	TouchableHighlight,
+	AppRegistry
 } from 'react-native';
 
 import ImageExample from './ImageExample';
@@ -23,7 +24,15 @@ import Background from './background';
 import ViewPagerExample from './ViewPagerExample';
 import WebViewExample from './WebViewExample';
 import TextInputExample from './TextInputExample';
-import Alipay from './src/components/android/Entry'
+import Alipay from './src/components/android/Entry';
+import Animations from './src/demoCompo/animation';
+import DragDemo from './src/demoCompo/DragDemo';
+import EmitterExample from './src/demoCompo/Emitter';
+import NativeModuleDemo from './src/demoCompo/NativeModuleDemo';
+import NativeStorage from './src/demoCompo/NativeStorage';
+import { SimpleTabView,ScrollTabBar,Test,OverlayTabView
+ } from './src/demoCompo/TabScrollView';
+import TestListPopover from './src/demoCompo/TestListPopover'; 
 var router=[
 	{
 		name: 'ImageExamples',
@@ -73,6 +82,37 @@ var router=[
 	},{
 		name:'TextInput',
 		component: TextInputExample
+	},{
+		name: 'Animated',
+		component: Animations	
+	},{
+		name: 'dragDemo',
+		component: DragDemo	
+	},{
+		name: 'Emitter',
+		component: EmitterExample	
+	},
+	{
+		name: 'nativeDemo',
+		component: NativeModuleDemo	
+	},{
+		name: 'NativeStorage',
+		component:NativeStorage	
+	},
+	{
+		name:'SimpleTabView',
+		component: SimpleTabView	
+	},
+	{
+		name: 'ScrollTabBar',
+		component: ScrollTabBar	
+	},
+	{
+		name:'OverlayTabView',
+		component:OverlayTabView
+	},{
+		name:'TestListPopover',
+		component:TestListPopover
 	},
 	{
 		name: 'Alipay',
@@ -87,7 +127,16 @@ class Main extends Component{
 		this.renderRow=this.renderRow.bind(this);
 	}
 	render(){
-		return <ListView dataSource={menuDataSource} renderRow={this.renderRow}/>
+		return (
+			<View>
+				<ListView dataSource={menuDataSource} renderRow={this.renderRow}/>
+				<TouchableHighlight onPress={()=>{
+					//AppRegistry.unmountApplicationComponentAtRootTag();
+				}}>
+					<Text>Exit</Text>
+				</TouchableHighlight>
+			</View>
+			);
 	}
 	renderRow(route){
 		return(

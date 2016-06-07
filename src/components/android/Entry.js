@@ -10,10 +10,22 @@ import {
 import TabNavigator from 'react-native-tab-navigator';
 import AlipayView from './alipay/Index';
 import KoubeiView from './koubei/Index';
+import FriendView from './friend/Index';
+import MineView from './mine/Index';
 
 const MaterialIcons = require('react-native-vector-icons/MaterialIcons');
 //import Icon from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
+class Pop extends Component{
+	render(){
+		return (
+			<View style={styles.badge}>
+				<Text style={styles.badgeText}>{this.props.attention}</Text>
+			</View>
+		);
+	}
+}
+
 export default class Interface extends Component{
 	constructor(props){
 		super(props);
@@ -25,6 +37,13 @@ export default class Interface extends Component{
 		this.setState({
 			selectedTab: selectedTab
 		});
+	}
+	renderBadge(attention){
+		return (
+			<View style={styles.badge}>
+				<Text style={styles.badgeText}>{attention}</Text>
+			</View>
+		);
 	}
 	render(){
 		 const alipayLogoIcon = 'data:image/png;base64,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';
@@ -42,6 +61,7 @@ export default class Interface extends Component{
    		 			renderIcon={()=><Image source={{uri:alipayLogoIcon, scale: 2}} style={styles.iconStyle}/>}
    		 			onPress={()=> {this.onPress('AlipayView');}}
    		 			titleStyle={styles.titleStyle}
+					renderBadge={()=>this.renderBadge(1)}
    		 		>
    		 		<AlipayView />
    		 		</TabNavigator.Item>
@@ -52,6 +72,7 @@ export default class Interface extends Component{
    		 			renderIcon={() => <Image source={{uri: koubeiBase64Icon, scale: 2}} style={styles.iconStyle} />}
    		 			onPress={()=>this.onPress('KoubeiView')}
    		 			titleStyle={styles.titleStyle}
+					renderBadge={()=> this.renderBadge(3)}
    		 		>
    		 			<KoubeiView />
    		 		</TabNavigator.Item>
@@ -62,8 +83,9 @@ export default class Interface extends Component{
    		 			renderIcon={() => <Image source={{uri:mineBase64Icon, scale: 2}} style={styles.iconStyle}/>}
    		 			onPress={()=>this.onPress('FriendsView')}
    		 			titleStyle={styles.titleStyle}
+					renderBadge={()=> this.renderBadge(2)}
    		 		>
-   		 			<View><Text>Lorem <Icon name="rocket" size={30} color="#900" /> Ipsum</Text></View>
+   		 			<FriendView />
 
    		 		</TabNavigator.Item>
    		 		<TabNavigator.Item
@@ -73,8 +95,9 @@ export default class Interface extends Component{
    		 			renderIcon={()=> <Image source={{uri:mineBase64Icon, scale: 2}} style={styles.iconStyle}/>}
    		 			titleStyle={styles.titleStyle}
    		 			onPress={()=>{this.onPress('MineView')}}
+						renderBadge={()=> this.renderBadge(1)}
    		 		>
-   		 		<View><Text>我的</Text></View>
+   		 		<MineView />
    		 		</TabNavigator.Item>
    		 	</TabNavigator>
    		 );
@@ -88,5 +111,17 @@ const styles=StyleSheet.create({
 	iconStyle:{
 		width: 50,
 		height: 50
+	},
+	badge:{
+		width:20,
+		height:20,
+		backgroundColor:'red',
+		borderRadius:20,
+		justifyContent:'center',
+		alignItems:'center'
+	},
+	badgeText:{
+		color:'white',
+		fontWeight:'bold'
 	}
 });
