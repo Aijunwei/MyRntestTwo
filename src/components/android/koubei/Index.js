@@ -20,7 +20,7 @@ import NavBar from './../common/NavBar';
 import KoubeiTypeViewPager from './KoubeiTypeViewPager';
 import HotAdvice from './HotAdvice';
 import Popover from '../common/Popover';
-
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 // 样式
 import CommonStyles from '../../../styles/common';
 import TopBarStyles from '../../../styles/topBar';
@@ -176,7 +176,29 @@ const koubeiTypes=[
 	}
 ];
 const Advertisment = (props)=> (<TouchableOpacity style={{marginTop:20}}><Image source={props.src} style={{width: 700,height:400}}/></TouchableOpacity>);
-
+const LISTITEMS=[
+	{
+		text:'待评价',
+		icon:{
+			name:'pencil-square-o',
+			size:30
+		},
+		tips:1
+	},{
+		text: '我的评价',
+		icon:{
+			name:'commenting-o',
+			size:30
+		}
+	},
+	{
+		text: '帮助',
+		icon:{
+			name:'question-circle',
+			size:30
+		}
+	}
+];
 class KoubeiView extends Component{
 	constructor(props){
 		super(props);
@@ -199,6 +221,14 @@ class KoubeiView extends Component{
 	}
 	setItem(){
 
+	}
+	componentDidMount(){
+		this.openPopover = RCTDeviceEventEmitter.addListener('popover',()=>{
+			this.showPopover();
+		});
+	}
+	componentWillUnmount(){
+		RCTDeviceEventEmitter.removeSubscription(this.openPopover);
 	}
 	renderPage(){
 		const pages=koubeiTypes.map((item,pageIndex)=>{
@@ -251,7 +281,7 @@ class KoubeiView extends Component{
 						<HotAdvice />
 					</View>
 				</ScrollView>
-				<Popover/>
+				<Popover list={LISTITEMS} isVisible={this.state.isVisible} onClose={ () => this.closePopover() }/>
 			</View>
 		);
 	}
@@ -313,10 +343,7 @@ const NavigationBarRouteMapper ={
 			return (
 				<NavBar.RightButton styles={styles}>
 					<Text onPress={()=>{
-					/*	navigator.push({
-							name:'popover',
-							component:Popover
-						});*/
+						RCTDeviceEventEmitter.emit('popover');
 					}}>{MoreIcon}</Text>
 				</NavBar.RightButton>
 			);

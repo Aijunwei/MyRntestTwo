@@ -4,7 +4,9 @@ import {
 	View,
 	Text,
 	Image,
-	StyleSheet,TextInput
+	StyleSheet,
+	PixelRatio,
+	TextInput
 } from 'react-native'
 
 import TabNavigator from 'react-native-tab-navigator';
@@ -103,14 +105,15 @@ export default class Interface extends Component{
    		 );
 	}
 }
-
+const NAVIMAGESIZE=PixelRatio.getPixelSizeForLayoutSize(50);
+	  
 const styles=StyleSheet.create({
 	titleStyle:{
 		fontSize: 19
 	},
 	iconStyle:{
-		width: 50,
-		height: 50
+		width: NAVIMAGESIZE,
+		height: NAVIMAGESIZE
 	},
 	badge:{
 		width:20,

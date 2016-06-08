@@ -5,9 +5,14 @@ import {
     StyleSheet,
     ListView,
     TouchableWithoutFeedback,
+    TouchableOpacity,
     Dimensions
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+
 const {width,height} =Dimensions.get('window');
+
 const ds= new ListView.DataSource({
    rowHasChanged: (r1,r2) => r1!==r2 
 });
@@ -16,13 +21,15 @@ export default class Popover extends Component{
     static defaultProps={
         list: [""],
         onClick: noop,
-        onClose: noop
+        onClose: noop,
+        isVisible:false
     };
     static propsTypes={
         list: React.PropTypes.array.isRequired,
         onClick: React.PropTypes.func,
-        onClose: React.PropTypes.func
-    };
+        onClose: React.PropTypes.func,
+        isVisible: React.PropTypes.bool
+    }
     constructor(props){
         super(props);
         this.state={
@@ -40,30 +47,65 @@ export default class Popover extends Component{
         this.props.onClick(data);
         this.props.onClose();
     }
-    renderRow(rowData){
+    renderRow(rowData,sectionID,rowId){
+       
+        let rowStyle=(rowId != this.props.list.length-1) ? styles.rowStyle : styles.rowStyleNoBorder;
+        let tipView = <View/>;
+        if(rowData.tips){
+            tipView =(<View style={styles.tipView}>
+                        <Text style={{color:'white'}}>{rowData.tips}</Text>
+                    </View>);
+        }
         let row=(
             <TouchableOpacity onPress={()=> this.handleClick(rowData)}>
-                <View style={styles.rowStyle}>
-                    <Text>{rowData.text}</Text>
+                <View style={rowStyle}>
+                   <Icon name={rowData.icon.name} size={rowData.icon.size||20} color="#FFFFFF"/> 
+                   <Text style={styles.popItemText}>{rowData.text}</Text>
+                   {tipView}
                 </View>
             </TouchableOpacity>
         );
         if(this.props.renderRow){
             row=this.props.renderRow(rowData);
         }
-        return {row};
+        return row;
+    }
+    renderList(){
+        let maxHeight={};
+        if(this.props.list.length>5){
+            maxHeight ={
+                height:250
+            }
+        }
+     //   return (<View></View>);
+        return (
+            <ListView
+              style={maxHeight}
+              dataSource={this.state.dataSource}
+              renderRow={(rowData,sectionID,rowID)=>this.renderRow(rowData,sectionID,rowID)}
+              automaticallyAdjustContentInsets={false} />
+        );
     }
     render(){
-        return (
-            <TouchableWithoutFeedback >
-                <View style={styles.container}>
-                    <View style={[styles.popover]}>
-                        <View style={styles.trangle}></View>
-                        <View style={styles.popoverContent}><Text style={styles.popItemText}>item1</Text></View>
+        let containerStyle=this.props.containerStyle || styles.container,
+            popoverStyle = this.props.popoverStyle || styles.popover;
+        if (this.props.isVisible) {
+            return (
+                <TouchableWithoutFeedback onPress={()=>this.props.onClose()}>
+                    <View style={containerStyle}>
+                        <View style={[styles.popover]}>
+                            <View style={styles.trangle}></View>
+                            <View style={styles.popoverContent}>
+                                {this.renderList()}
+                            </View>
+                        </View>
                     </View>
-                </View>
-            </TouchableWithoutFeedback>
-        );
+                </TouchableWithoutFeedback>
+            );
+        }else{
+            return <View />;
+        }
+
     }
 }
 
@@ -84,7 +126,8 @@ const styles=StyleSheet.create({
     popoverContent:{
         backgroundColor:'#3F454F',
         width:200,
-        height:150,
+        paddingLeft:10,
+        paddingRight:10,
         borderRadius:5
     },
     trangle:{
@@ -101,6 +144,27 @@ const styles=StyleSheet.create({
     rowStyle:{
         borderBottomColor:'#FFFFFF',
         borderBottomWidth:0.5,
-        flexDirection:'row'
+        paddingLeft:8,
+        paddingRight:5,
+        flexDirection:'row',
+        justifyContent:'space-between',
+        height:50,
+        alignItems:'center'
+    },
+    rowStyleNoBorder:{
+        flexDirection: 'row',
+        height: 50,
+        paddingLeft:8,
+        paddingRight:5,
+        justifyContent:'space-between',
+        alignItems: 'center'
+    },
+    tipView:{
+        width:20,
+        height:20,
+        borderRadius:20,
+        backgroundColor:'red',
+        justifyContent:'center',
+        alignItems:'center'
     }
 });
