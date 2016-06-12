@@ -21,6 +21,7 @@ import KoubeiTypeViewPager from './KoubeiTypeViewPager';
 import HotAdvice from './HotAdvice';
 import Popover from '../common/Popover';
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
+import CityView from './CityView';
 // 样式
 import CommonStyles from '../../../styles/common';
 import TopBarStyles from '../../../styles/topBar';
@@ -317,7 +318,12 @@ const NavigationBarRouteMapper ={
 	LeftButton(route,navigator,index,navState){
 		if(route.name==='koubei-index'){
 			return (
-				<TouchableOpacity style={{marginLeft:20,marginTop:15}}>
+				<TouchableOpacity style={{marginLeft:20,marginTop:15}} onPress={()=>{
+					navigator.push({
+						name:'cityView',
+						component:CityView
+					});
+				}}>
 					<Text key="topBarCity" style={styles.topBarCity}>深圳<Icon name="angle-down" size={20} color="#FFFFFF"/></Text>
 				</TouchableOpacity>
 			);

@@ -41,6 +41,7 @@ class UIListViewExample extends Component{
 				renderScrollComponent={ props => <RecyclerViewBackedScrollView {...props} />}
 				renderSeparator ={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
 			/>
+
 			<TouchableHighlight  style={{height:44,overflow:'hidden',alignSelf:'stretch',justifyContent:'center'}} underlayColor="#a9d9d4" onPress={()=>{
 				const {navigator}=this.props;
 				navigator&&navigator.pop();
