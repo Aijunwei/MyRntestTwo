@@ -33,6 +33,7 @@ import NativeStorage from './src/demoCompo/NativeStorage';
 import { SimpleTabView,ScrollTabBar,Test,OverlayTabView
  } from './src/demoCompo/TabScrollView';
 import TestListPopover from './src/demoCompo/TestListPopover'; 
+import TestIt from './src/demoCompo/TestIt'; 
 var router=[
 	{
 		name: 'ImageExamples',
@@ -113,6 +114,9 @@ var router=[
 	},{
 		name:'TestListPopover',
 		component:TestListPopover
+	},{
+		name:'TestIt',
+		component:TestIt
 	},
 	{
 		name: 'Alipay',

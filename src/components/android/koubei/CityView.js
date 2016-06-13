@@ -9,6 +9,7 @@ import {
     ScrollView,
     TouchableOpacity
 } from 'react-native';
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 const MaterialIcons = require('react-native-vector-icons/MaterialIcons');
 const searchIcon = (<MaterialIcons name="search" size={24} color="gray"></MaterialIcons>);
  class City extends Component{
@@ -36,8 +37,8 @@ class CityCard extends Component{
     }
     render(){
         return (
-           <View>
-                <Text style={styles.cardTitle}>{this.props.title}</Text>
+           <View ref={this.props.refname}>
+                <Text  style={styles.cardTitle}>{this.props.title}</Text>
          
                 <ListView dataSource={this.state.dataSource} renderRow={
                     (rowData) => <City data={rowData}/>
@@ -80,7 +81,8 @@ export default class CityView extends Component{
             getRowData:(dataBlob,sectionID,rowID)=> dataBlob[sectionID+':'+rowID]
         });
         this.state={
-            dataSource:this.genDataBlob(ds)
+            dataSource:this.genDataBlob(ds),
+            stickyText:'当前所在城市'
         }
     }
     genSectionIDs(){
@@ -116,21 +118,33 @@ export default class CityView extends Component{
         }
         return ds.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs);
     }
+    componentDidMount(){
+       // console.log(RCTDeviceEventEmitter);
+        this.scrollOption=RCTDeviceEventEmitter.addListener('scrollCityView',(posY)=>{
+           this.refs.cityView.scrollTo({
+                y:posY
+            });
+        });
+    }
+    componentWillUnmount(){
+        this.scrollOption.remove();
+    }
     render(){
       
         return (
             <View style={{flex:1,backgroundColor:'rgb(245,245,249)'}}>
-                <View style={styles.search}>
+                <View style={styles.search} >
                     {searchIcon}
                     <TextInput placeholder="输入城市名字、拼音或首字母" style={styles.searchInput} underlineColorAndroid="transparent"/>
                 </View>
-                <ScrollView style={{flex:1,}}>
+                <View style={styles.divider}/>
+                <ScrollView ref="cityView" style={{flex:1,}} onScroll={(e)=>{}}>
                     <View style={styles.cardContainer}>
-                        <CityCard title="你所在的地区" cities={[CurrentCity]}/>
-                        <CityCard title="历史访问目的地" cities={HistoryCities}/>
-                        <CityCard title="全部热门目的地" cities={HotCities}/>
+                        <CityCard  refname="testscroll0" title="你所在的地区" cities={[CurrentCity]}/>
+                        <CityCard  refname="testscroll1" title="历史访问目的地" cities={HistoryCities}/>
+                        <CityCard  refname="testscroll2" title="全部热门目的地" cities={HotCities}/>
                     </View>
-                    <ListView dataSource={this.state.dataSource} 
+                    <ListView  dataSource={this.state.dataSource} 
                         renderSectionHeader={(sectionData) => {
                             return (
                                 <View style={styles.sectionHeader}>
@@ -154,47 +168,68 @@ export default class CityView extends Component{
 const RightNav = ()=>{
     const scrollNavItems=
     [{
-        key:'当前'
+        key:'当前',
+        positionY:0
     },{
-        key:'历史'
+        key:'历史',
+        positionY:150
     },{
-        key:'热门'
+        key:'热门',
+        positionY:290
     },{
-        key:'A'
+        key:'A',
+        positionY:485
     },{
-        key:'B'
+        key:'B',
+        positionY:1226
     },{
-        key:'C'
+        key:'C',
+        positionY:1966
     },{
-        key:'D'
+        key:'D',
+        positionY:2706
     },{
-        key:'E'
+        key:'E',
+        positionY:3446
     },{
-        key:'F'
+        key:'F',
+        positionY:4186
     },{
-        key:'G'
+        key:'G',
+        positionY:4926
     },{
-        key:'H'
+        key:'H',
+        positionY:5666
     },{
-        key:'I'
+        key:'I',
+        positionY:6406
     },{
-        key:'G'
+        key:'G',
+        positionY:7146
     },{
-        key:'K'
+        key:'K',
+        positionY:7886
     },{
-        key:'L'
+        key:'L',
+        positionY:8626
     },{
-        key:'M'
+        key:'M',
+        positionY:8366
     },{
-        key:'N'
+        key:'N',
+        positionY:9106
     },{
-        key:'O'
+        key:'O',
+        positionY:9846
     },{
-        key:'P'
+        key:'P',
+        positionY:10586
     },{
-        key:'Q'
+        key:'Q',
+        positionY:11326
     },{
-        key:'R'
+        key:'R',
+        positionY:3446
     },{
         key:'S'
     },{
@@ -212,8 +247,20 @@ const RightNav = ()=>{
     },{
         key:'Z'
     }];
+    for(let i=4;i<29;i++){
+        scrollNavItems[i].positionY=scrollNavItems[i-1].positionY+740;
+    }
     let navItems=scrollNavItems.map((item,index)=>{
-        return <Text key={index} style={{textAlign:'center',fontSize:20,color:'blue',marginTop:5}}>{item.key}</Text>;
+        return (<Text key={index} 
+                     style={{textAlign:'center',fontSize:20,color:'blue',marginTop:5}} 
+                     onPress={
+                         ()=>{
+                             let posY=item.positionY|| 0;
+                             RCTDeviceEventEmitter.emit('scrollCityView',posY);
+                         }
+                     }>
+                    {item.key}
+                </Text>);
     });
     return (
         <View style={styles.scrollNav}>
@@ -224,8 +271,6 @@ const RightNav = ()=>{
 
 const styles=StyleSheet.create({
     cardContainer:{
-        borderTopWidth:0.5,
-        borderTopColor:'rgb(228,228,230)',
         borderBottomWidth:0.5,
         borderBottomColor:'rgb(228,228,230)'
     },
@@ -297,5 +342,8 @@ const styles=StyleSheet.create({
         right:0,
         top:0,
         width:50
+    },divider:{
+        borderBottomWidth:0.5,
+        borderBottomColor: 'rgb(228,228,230)'
     }
 });

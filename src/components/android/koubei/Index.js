@@ -229,7 +229,7 @@ class KoubeiView extends Component{
 		});
 	}
 	componentWillUnmount(){
-		RCTDeviceEventEmitter.removeSubscription(this.openPopover);
+		this.openPopover.remove();
 	}
 	renderPage(){
 		const pages=koubeiTypes.map((item,pageIndex)=>{
@@ -314,6 +314,47 @@ Modal 画popover
 					</View>
 				</Modal>
 */
+class CityViewTabButton extends Component{
+	constructor(props){
+		super(props);
+		this.state={
+			activeIndex:0
+		};
+	}
+	render(){
+		let leftStyle={},rightStyle={},leftText={},rightText={};
+
+		if(this.state.activeIndex===0){
+			leftStyle={
+				backgroundColor:'#FFFFFF'
+			};
+			rightText={
+				color:'#FFFFFF'
+			};
+		}else{
+			leftText={
+				color:'#FFFFFF'
+			};
+			rightStyle={
+				backgroundColor:'#FFFFFF'
+			};
+		}
+		return (
+			<View style={styles.cityTab}>
+				<TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ activeIndex: 0 }) }>
+					<View style={[styles.tabText, styles.leftTabText, leftStyle]}>
+						<Text  style={leftText} >境内</Text>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity  style={{flex:1}} onPress={() => this.setState({ activeIndex: 1 }) }>
+					<View style={[styles.tabText, styles.rightTabText, rightStyle]}>
+						<Text  style={rightText}>境外</Text>
+					</View>
+				</TouchableOpacity>
+			</View>
+		);
+	}
+}
 const NavigationBarRouteMapper ={
 	LeftButton(route,navigator,index,navState){
 		if(route.name==='koubei-index'){
@@ -321,7 +362,8 @@ const NavigationBarRouteMapper ={
 				<TouchableOpacity style={{marginLeft:20,marginTop:15}} onPress={()=>{
 					navigator.push({
 						name:'cityView',
-						component:CityView
+						component:CityView,
+						title:CityViewTabButton
 					});
 				}}>
 					<Text key="topBarCity" style={styles.topBarCity}>深圳<Icon name="angle-down" size={20} color="#FFFFFF"/></Text>
@@ -362,6 +404,9 @@ const NavigationBarRouteMapper ={
 		return null;
 	},
 	Title(route, navigator, index, navState){
+		if(route.title){
+			return <route.title />;
+		}
 		return (
 			
 			<View style={{width:500,height:45,backgroundColor:'#FFFFFF',borderRadius:25,alignSelf:'center',marginTop:8,flexDirection:'row',alignItems:'center'}}>
@@ -443,6 +488,31 @@ const styles = StyleSheet.create(Object.assign(
 			marginRight: 10,
 			backgroundColor: "#B8C",
 		},
+		cityTab:{
+			width:220,
+			height:35,
+			flexDirection:'row',
+			borderRadius:5,
+			borderWidth:1,
+			borderColor:'white',
+			alignSelf:'center',
+			alignItems:'center',
+			marginTop:10
+		},
+		tabText:{
+			flex:1,
+			height:35,
+			justifyContent:'center',
+			alignItems:'center'
+		},
+		leftTabText:{
+			borderTopLeftRadius:5,
+			borderBottomLeftRadius:5
+		},
+		rightTabText:{
+			borderTopRightRadius:5,
+			borderBottomRightRadius:5
+		}
     }
 ));
 
