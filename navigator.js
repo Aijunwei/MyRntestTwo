@@ -34,6 +34,8 @@ import { SimpleTabView,ScrollTabBar,Test,OverlayTabView
  } from './src/demoCompo/TabScrollView';
 import TestListPopover from './src/demoCompo/TestListPopover'; 
 import TestIt from './src/demoCompo/TestIt'; 
+import Table from './src/demoCompo/Table';
+
 var router=[
 	{
 		name: 'ImageExamples',
@@ -117,6 +119,10 @@ var router=[
 	},{
 		name:'TestIt',
 		component:TestIt
+	},
+	{
+		name:'充值',
+		component:Table
 	},
 	{
 		name: 'Alipay',

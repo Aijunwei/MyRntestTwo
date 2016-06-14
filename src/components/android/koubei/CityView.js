@@ -35,9 +35,12 @@ class CityCard extends Component{
             dataSource: ds.cloneWithRows(this.props.cities)
         }
     }
+    getWidth(){
+        return this._width||0;
+    }
     render(){
         return (
-           <View ref={this.props.refname}>
+           <View ref={this.props.refname} onLayout={(e)=>{console.log(e.nativeEvent);this._width=138;this.height=768}}>
                 <Text  style={styles.cardTitle}>{this.props.title}</Text>
          
                 <ListView dataSource={this.state.dataSource} renderRow={
@@ -140,7 +143,7 @@ export default class CityView extends Component{
                 <View style={styles.divider}/>
                 <ScrollView ref="cityView" style={{flex:1,}} onScroll={(e)=>{}}>
                     <View style={styles.cardContainer}>
-                        <CityCard  refname="testscroll0" title="你所在的地区" cities={[CurrentCity]}/>
+                        <CityCard  ref="testscroll0" title="你所在的地区" cities={[CurrentCity]} />
                         <CityCard  refname="testscroll1" title="历史访问目的地" cities={HistoryCities}/>
                         <CityCard  refname="testscroll2" title="全部热门目的地" cities={HotCities}/>
                     </View>
