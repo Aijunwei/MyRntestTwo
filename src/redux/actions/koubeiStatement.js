@@ -1,5 +1,5 @@
 'use strict';
-const FETCH_AWAIT_STATEMENTS='FETCH_AWAIT_STATEMENTS';
+import * as types from '../../constants/ActionTypes';
 export function fetchAwaitStatements(){
     return {
         type:FETCH_AWAIT_STATEMENTS,

@@ -8,6 +8,7 @@
   "dependencies": {
     "react": "^0.14.8",
     "react-native": "^0.25.1",
+    "react-native-datepicker": "^1.2.1",
     "react-native-list-popover": "^1.0.5",
     "react-native-scrollable-tab-view": "^0.4.3",
     "react-native-storage": "^0.1.0",

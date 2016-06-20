@@ -5,12 +5,14 @@ import {
     Text,
     View,
     StyleSheet,
+    TextInput,
     TouchableOpacity
 } from 'react-native';
 
 export default class TestIt extends Component{
     measureWelcome() {
         this.refs.welcome.measure(this.logWelcomeLayout);
+        
     }
 
     logWelcomeLayout(ox, oy, width, height, px, py) {
@@ -29,7 +31,18 @@ export default class TestIt extends Component{
                 </Text>
                 <TouchableOpacity onPress={this.measureWelcome.bind(this)}>
                     <Text>Measure it</Text>
+             
                 </TouchableOpacity>
+                       <TextInput placeholder="input" ref="myinput" secureTextEntry={true}  keyboardType="numeric" onEndEditing={(e,text)=>{
+                        console.log(e.nativeEvent);
+                        console.log(text);
+                        console.log(this.refs.myinput);
+                    }}/>
+                          <TextInput placeholder="input"  keyboardType="numeric" password={true} onEndEditing={(e,text)=>{
+                        console.log(e);
+                        console.log(text);
+                        console.log(this.refs.myinput);
+                    }}/>
             </View>
         );
     }

@@ -24,7 +24,7 @@ import Background from './background';
 import ViewPagerExample from './ViewPagerExample';
 import WebViewExample from './WebViewExample';
 import TextInputExample from './TextInputExample';
-import Alipay from './src/components/android/Entry';
+import Alipay from './src/redux/App';
 import Animations from './src/demoCompo/animation';
 import DragDemo from './src/demoCompo/DragDemo';
 import EmitterExample from './src/demoCompo/Emitter';

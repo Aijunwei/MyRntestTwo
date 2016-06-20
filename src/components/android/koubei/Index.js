@@ -231,6 +231,9 @@ class KoubeiView extends Component{
 	componentWillUnmount(){
 		this.openPopover.remove();
 	}
+	componentWillUpdate(props,state){
+		console.log('update');
+	}
 	renderPage(){
 		const pages=koubeiTypes.map((item,pageIndex)=>{
 			let pager=item.list.map((row,rowIndex)=>{
@@ -357,6 +360,7 @@ class CityViewTabButton extends Component{
 }
 const NavigationBarRouteMapper ={
 	LeftButton(route,navigator,index,navState){
+	//	console.log(this.props.city);
 		if(route.name==='koubei-index'){
 			return (
 				<TouchableOpacity style={{marginLeft:20,marginTop:15}} onPress={()=>{
@@ -366,7 +370,7 @@ const NavigationBarRouteMapper ={
 						title:CityViewTabButton
 					});
 				}}>
-					<Text key="topBarCity" style={styles.topBarCity}>深圳<Icon name="angle-down" size={20} color="#FFFFFF"/></Text>
+					<Text key="topBarCity" style={styles.topBarCity}>{this.props.city.city}<Icon name="angle-down" size={20} color="#FFFFFF"/></Text>
 				</TouchableOpacity>
 			);
 		}
@@ -414,7 +418,6 @@ const NavigationBarRouteMapper ={
 				<TextInput placeholder="输入商家、品类" 
 						   style={{flex:1,height:40}} 
 						   underlineColorAndroid="transparent"/>
-			
 			</View>
 		);
 	}
@@ -424,15 +427,32 @@ class Main extends Component{
 	constructor(props) {
 	  super(props);
 	  this.renderScene=this.renderScene.bind(this);
+	  NavigationBarRouteMapper.LeftButton=NavigationBarRouteMapper.LeftButton.bind(this);
 	}
 	renderScene(route,navigator){
 		if(route.component){
+			return <route.component { ...this.props} { ...route.passProps} navigator={navigator} route={route} />;
 			return React.createElement(route.component,{ ...this.props, ...route.passProps, navigator, route });
 		}
 	}
+	componentDidMount(){
+		let navigationContext=this.refs.nav.navigationContext;
+		let callback=(event)=>{
+			console.log(event.data);
+		};
+		this._listeners=[
+			navigationContext.addListener('willfocus',callback),
+			navigationContext.addListener('didfocus',callback)
+		];
+	}
+	componentWillUnmount(){
+		this._listeners &&this._listeners.forEach(listener=> listener.remove());
+	}
 	render(){
+		
+		let {city}=this.props.city;
 		return (
-			<Navigator initialRoute={{name: 'koubei-index', component: KoubeiView}}
+			<Navigator ref="nav" initialRoute={{name: 'koubei-index', component: KoubeiView,params:{selectCity:city}}}
 						configureScene={()=>{ return Navigator.SceneConfigs.FloatFromRight }}
 						navigationBar={
 							<Navigator.NavigationBar ref="navigationBar" style={{backgroundColor: '#3F454F', justifyContent:'center'}} routeMapper={NavigationBarRouteMapper} />

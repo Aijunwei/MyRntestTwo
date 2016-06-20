@@ -6,6 +6,8 @@ import {
     StyleSheet,
     Dimensions
 } from 'react-native';
+import DatePicker from 'react-native-datepicker';
+
 const {width}=Dimensions.get('window');
 //充值项数据
 const ChargeItems=[{

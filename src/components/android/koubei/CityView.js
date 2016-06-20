@@ -18,9 +18,15 @@ const searchIcon = (<MaterialIcons name="search" size={24} color="gray"></Materi
     }
     render(){
         return (
-            <View style={styles.cityView}>
-                <Text style={styles.cityText}>{this.props.data.name}</Text>
-            </View>
+            <TouchableOpacity style={{marginRight:30,marginBottom:15,}} onPress={()=>{
+                this.props.action(this.props.data.name);
+            }}>
+                <View style={styles.cityView}>
+                    <Text style={styles.cityText}>
+                        {this.props.data.name}
+                    </Text>
+                </View>
+            </TouchableOpacity>
         );
     }
 }
@@ -44,7 +50,7 @@ class CityCard extends Component{
                 <Text  style={styles.cardTitle}>{this.props.title}</Text>
          
                 <ListView dataSource={this.state.dataSource} renderRow={
-                    (rowData) => <City data={rowData}/>
+                    (rowData) => <City data={rowData} action={this.props.action}/>
                 } style={styles.listViewStyle} contentContainerStyle={styles.rowList}/>
        
            </View>
@@ -87,6 +93,7 @@ export default class CityView extends Component{
             dataSource:this.genDataBlob(ds),
             stickyText:'当前所在城市'
         }
+        console.log(this.props.actions);
     }
     genSectionIDs(){
         let sectionIDs=[];
@@ -121,6 +128,11 @@ export default class CityView extends Component{
         }
         return ds.cloneWithRowsAndSections(dataBlob,sectionIDs,rowIDs);
     }
+    selectCity(city){
+        const {actions, navigator} = this.props;
+        actions.selectCity(city);
+        navigator.pop();
+    }
     componentDidMount(){
        // console.log(RCTDeviceEventEmitter);
         this.scrollOption=RCTDeviceEventEmitter.addListener('scrollCityView',(posY)=>{
@@ -133,19 +145,24 @@ export default class CityView extends Component{
         this.scrollOption.remove();
     }
     render(){
-      
+      const {actions,navigator}=this.props;
         return (
             <View style={{flex:1,backgroundColor:'rgb(245,245,249)'}}>
                 <View style={styles.search} >
                     {searchIcon}
-                    <TextInput placeholder="输入城市名字、拼音或首字母" style={styles.searchInput} underlineColorAndroid="transparent"/>
+                    <TextInput placeholder="输入城市名字、拼音或首字母" style={styles.searchInput} underlineColorAndroid="transparent" onFocus={()=>{
+                        navigator.push({
+                            name:'search',
+                            component:<View style={{flex:1,opacity:0.5}}></View>
+                        })
+                    }}/>
                 </View>
                 <View style={styles.divider}/>
                 <ScrollView ref="cityView" style={{flex:1,}} onScroll={(e)=>{}}>
                     <View style={styles.cardContainer}>
-                        <CityCard  ref="testscroll0" title="你所在的地区" cities={[CurrentCity]} />
-                        <CityCard  refname="testscroll1" title="历史访问目的地" cities={HistoryCities}/>
-                        <CityCard  refname="testscroll2" title="全部热门目的地" cities={HotCities}/>
+                        <CityCard  ref="testscroll0" title="你所在的地区" cities={[CurrentCity]} action={this.selectCity.bind(this)}/>
+                        <CityCard  refname="testscroll1" title="历史访问目的地" cities={HistoryCities}  action={this.selectCity.bind(this)}/>
+                        <CityCard  refname="testscroll2" title="全部热门目的地" cities={HotCities}  action={this.selectCity.bind(this)}/>
                     </View>
                     <ListView  dataSource={this.state.dataSource} 
                         renderSectionHeader={(sectionData) => {
@@ -156,9 +173,14 @@ export default class CityView extends Component{
                         } }
                         renderRow={(rowData) => {
                             return (
-                                <View style={styles.cityRow}>
-                                    <Text style={{color:'black',fontSize:22}}>{rowData}</Text>
-                                </View>);
+                                <TouchableOpacity onPress={()=>{
+                                    this.selectCity(rowData);
+                                }}>
+                                    <View style={styles.cityRow}>
+                                        <Text style={{ color: 'black', fontSize: 22 }}>{rowData}</Text>
+                                    </View>
+                                </TouchableOpacity>);
+                                
                         } } 
                     style={{backgroundColor:'#FFFFFF'}}/>
                     
@@ -285,8 +307,7 @@ const styles=StyleSheet.create({
     cityView:{
         width: 156,
         height:56,
-        marginRight:30,
-        marginBottom:15,
+
         borderRadius:5,
         backgroundColor:'#FFFFFF',
         justifyContent:'center',
