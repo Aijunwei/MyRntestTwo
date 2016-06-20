@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     ViewPagerAndroid
 } from 'react-native';
-
+import KoubeiStores from './KoubeiStores';
 // 字体
 const Icon = require('react-native-vector-icons/FontAwesome');
 //color
@@ -158,12 +158,18 @@ export default class KoubeiTypeViewPager extends Component{
         }
     }
 	renderPage(){
+		const {navigator}=this.props;
 		const pages=koubeiTypes.map((item,pageIndex)=>{
 			let pager=item.list.map((row,rowIndex)=>{
 				let typeList=row.map((col,colIndex)=>{
 					let icon = <Icon name={col.icon.name} size={col.icon.size} color={col.icon.color} />;
 					return (<View key={'typecol-'+colIndex} style={styles.typeItem}>
-								<TouchableOpacity style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+								<TouchableOpacity style={{flex:1,alignItems:'center',justifyContent:'center'}} onPress={()=>{
+									navigator.push({
+										name:'KoubeiStores',
+										component:KoubeiStores
+									});
+								}}>
 									{icon}
 									<Text style={styles.typeTitle}>{col.title}</Text>
 								</TouchableOpacity>

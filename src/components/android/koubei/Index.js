@@ -22,6 +22,7 @@ import HotAdvice from './HotAdvice';
 import Popover from '../common/Popover';
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 import CityView from './CityView';
+
 // 样式
 import CommonStyles from '../../../styles/common';
 import TopBarStyles from '../../../styles/topBar';
@@ -240,7 +241,8 @@ class KoubeiView extends Component{
 				let typeList=row.map((col,colIndex)=>{
 					let icon = <Icon name={col.icon.name} size={col.icon.size} color={col.icon.color} />;
 					return (<View key={'typecol-'+colIndex} style={styles.typeItem}>
-								<TouchableOpacity style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+								<TouchableOpacity style={{flex:1,alignItems:'center',justifyContent:'center'}} onPress={()=>{
+								}}>
 									{icon}
 									<Text style={styles.typeTitle}>{col.title}</Text>
 								</TouchableOpacity>
@@ -280,7 +282,7 @@ class KoubeiView extends Component{
 			<View style={[styles.container,{marginTop:15}]}>	
 				<ScrollView contentContainerStyle={styles.scrollContainerTab}>
 					<View key="content" style={styles.content}>
-						<KoubeiTypeViewPager />
+						<KoubeiTypeViewPager navigator={this.props.navigator}/>
 						{this.renderAds()}
 						<HotAdvice />
 					</View>

@@ -10,6 +10,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
+import SearchCityView from './SearchCityView';
 const MaterialIcons = require('react-native-vector-icons/MaterialIcons');
 const searchIcon = (<MaterialIcons name="search" size={24} color="gray"></MaterialIcons>);
  class City extends Component{
@@ -153,7 +154,7 @@ export default class CityView extends Component{
                     <TextInput placeholder="输入城市名字、拼音或首字母" style={styles.searchInput} underlineColorAndroid="transparent" onFocus={()=>{
                         navigator.push({
                             name:'search',
-                            component:<View style={{flex:1,opacity:0.5}}></View>
+                            component:SearchCityView
                         })
                     }}/>
                 </View>
